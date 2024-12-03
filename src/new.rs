@@ -63,7 +63,7 @@ pub fn new_day(day: usize) {
     let content = fs::read_to_string("src/run.rs").unwrap().replace(
         "// New day here",
         format!(
-            "{0} => solutions::day_{0}::execute(test),\n\t\t// New day here",
+            "{0} => solutions::day_{0}::execute(test),\n        // New day here",
             day
         )
         .as_str(),
