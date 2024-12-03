@@ -35,3 +35,20 @@ fn part_two(test: bool) -> usize {
     }
     sum
 }
+
+#[cfg(test)]
+mod test {
+    use super::{part_one, part_two};
+
+    #[test]
+    fn test_part_one() {
+        let result = part_one(true).to_string();
+        assert_eq!(result, String::from("161"));
+    }
+
+    #[test]
+    fn test_part_two() {
+        let result = part_two(true).to_string();
+        assert_eq!(result, String::from("48"));
+    }
+}

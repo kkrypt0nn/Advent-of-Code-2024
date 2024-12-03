@@ -1,5 +1,7 @@
 # Advent of Code 2024
 
+[![CI Badge](https://github.com/kkrypt0nn/Advent-of-Code-2024/actions/workflows/tests.yml/badge.svg)](https://github.com/kkrypt0nn/Advent-of-Code-2024/actions)
+
 <img src="AoC.jpg" width="75%" height="75%">
 
 Like every year I try to participate *(and not give up)* to the yearly Advent of Code. Since I am currently learning Rust I've decided this year to fully make it in Rust

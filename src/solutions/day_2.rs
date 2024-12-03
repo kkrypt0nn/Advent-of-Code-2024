@@ -31,7 +31,7 @@ fn part_two(test: bool) -> usize {
     lines.iter().filter(|&line| is_safe(line, true)).count()
 }
 
-fn is_safe(line: &Vec<isize>, tolerate_bad_level: bool) -> bool {
+fn is_safe(line: &[isize], tolerate_bad_level: bool) -> bool {
     let mut decrease_flag = false;
     for (i, num) in line.iter().enumerate() {
         if i == line.len() - 1 {
@@ -55,7 +55,7 @@ fn is_safe(line: &Vec<isize>, tolerate_bad_level: bool) -> bool {
 
             let start_at = if i == 0 { 0 } else { i - 1 };
             for j in start_at..line.len() {
-                let mut new_line = line.clone();
+                let mut new_line = line.to_owned();
                 new_line.remove(j);
                 if is_safe(&new_line, false) {
                     return true;
@@ -67,4 +67,21 @@ fn is_safe(line: &Vec<isize>, tolerate_bad_level: bool) -> bool {
     }
 
     true
+}
+
+#[cfg(test)]
+mod test {
+    use super::{part_one, part_two};
+
+    #[test]
+    fn test_part_one() {
+        let result = part_one(true).to_string();
+        assert_eq!(result, String::from("2"));
+    }
+
+    #[test]
+    fn test_part_two() {
+        let result = part_two(true).to_string();
+        assert_eq!(result, String::from("4"));
+    }
 }

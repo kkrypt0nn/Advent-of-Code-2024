@@ -3,7 +3,7 @@ use std::{
     io::Write,
 };
 
-const DEFAULT_MAIN_RS_FILE: &'static str = r###"pub fn execute(test: bool) {
+const DEFAULT_MAIN_RS_FILE: &str = r###"pub fn execute(test: bool) {
     println!("{}", part_one(test));
     println!("{}", part_two(test));
 }
@@ -16,6 +16,23 @@ fn part_one(test: bool) -> usize {
 fn part_two(test: bool) -> usize {
     let content = aoc_rs::input::read_file(aoc_rs::input::get_path({{day}}, test));
     content.len()
+}
+
+#[cfg(test)]
+mod test {
+    use super::{part_one, part_two};
+
+    #[test]
+    fn test_part_one() {
+        let result = part_one(true).to_string();
+        assert_eq!(result, String::from("Not implemented yet"));
+    }
+
+    #[test]
+    fn test_part_two() {
+        let result = part_two(true).to_string();
+        assert_eq!(result, String::from("Not implemented yet"));
+    }
 }"###;
 
 pub fn new_day(day: usize) {

@@ -37,3 +37,20 @@ fn parse_input(s: Vec<String>) -> (Vec<isize>, Vec<isize>) {
     right.sort();
     (left, right)
 }
+
+#[cfg(test)]
+mod test {
+    use super::{part_one, part_two};
+
+    #[test]
+    fn test_part_one() {
+        let result = part_one(true).to_string();
+        assert_eq!(result, String::from("11"));
+    }
+
+    #[test]
+    fn test_part_two() {
+        let result = part_two(true).to_string();
+        assert_eq!(result, String::from("31"));
+    }
+}
