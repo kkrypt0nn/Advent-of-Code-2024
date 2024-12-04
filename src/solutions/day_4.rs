@@ -32,13 +32,13 @@ fn part_one(test: bool) -> usize {
 
 fn check_direction(
     content: Vec<String>,
-    x_char_found: (usize, usize),
+    x_char_pos: (usize, usize),
     direction_start: (isize, isize),
 ) -> bool {
     let mut next_chars = String::new();
     for step in 1..=3 {
-        let new_x = x_char_found.0 as isize + direction_start.0 * step;
-        let new_y = x_char_found.1 as isize + direction_start.1 * step;
+        let new_x = x_char_pos.0 as isize + direction_start.1 * step;
+        let new_y = x_char_pos.1 as isize + direction_start.0 * step;
 
         if new_x < 0
             || new_y < 0
