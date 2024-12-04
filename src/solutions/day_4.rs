@@ -5,15 +5,16 @@ pub fn execute(test: bool) {
 
 fn part_one(test: bool) -> usize {
     let content = aoc_rs::input::read_file(aoc_rs::input::get_path(4, test));
+    // x,y
     let directions_start = [
-        (-1, 1),  // Up right
-        (0, 1),   // Right
-        (1, 1),   // Down right
-        (1, 0),   // Down
-        (1, -1),  // Down left
-        (0, -1),  // Left
-        (-1, -1), // Up left
-        (-1, 0),  // Up
+        (1, -1),  // Right up
+        (1, 0),   // Right
+        (1, 1),   // Right down
+        (0, 1),   // Down
+        (-1, 1),  // Left down
+        (-1, 0),  // Left
+        (-1, -1), // Left up
+        (0, -1),  // Up
     ];
     let mut sum = 0;
     for (y, line) in content.iter().enumerate() {
@@ -37,8 +38,8 @@ fn check_direction(
 ) -> bool {
     let mut next_chars = String::new();
     for step in 1..=3 {
-        let new_x = x_char_pos.0 as isize + direction_start.1 * step;
-        let new_y = x_char_pos.1 as isize + direction_start.0 * step;
+        let new_x = x_char_pos.0 as isize + direction_start.0 * step;
+        let new_y = x_char_pos.1 as isize + direction_start.1 * step;
 
         if new_x < 0
             || new_y < 0
