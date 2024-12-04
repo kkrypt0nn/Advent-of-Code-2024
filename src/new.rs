@@ -74,7 +74,7 @@ pub fn new_day(day: usize) {
     // Update solutions/mod.rs file
     println!("Adding day {} to solution mod file", day);
     let content = format!(
-        "{}\npub mod day_{};",
+        "{}pub mod day_{};\n",
         fs::read_to_string("src/solutions/mod.rs").unwrap(),
         day
     );
