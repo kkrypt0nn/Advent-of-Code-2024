@@ -36,7 +36,7 @@ impl PrintQueue {
                 .lines()
                 .map(|line| {
                     line.split(',')
-                        .map(|value| value.trim().parse::<usize>().unwrap())
+                        .map(|value| value.parse::<usize>().unwrap())
                         .collect()
                 })
                 .collect()
