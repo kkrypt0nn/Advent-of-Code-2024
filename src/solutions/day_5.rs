@@ -80,16 +80,13 @@ impl PrintQueue {
     }
 
     fn sort_update(&self, mut update: Vec<usize>) -> Vec<usize> {
-        let mut ordered = false;
-        while !ordered {
-            ordered = true;
+        while !self.is_correct_order(&update) {
             for &(rule_a, rule_b) in &self.rules {
                 let pos_a = update.iter().position(|&u| u == rule_a);
                 let pos_b = update.iter().position(|&u| u == rule_b);
                 if let (Some(a), Some(b)) = (pos_a, pos_b) {
                     if a > b {
                         update.swap(a, b);
-                        ordered = false;
                     }
                 }
             }
