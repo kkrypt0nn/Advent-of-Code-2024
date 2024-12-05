@@ -22,8 +22,7 @@ fn part_two(test: bool) -> usize {
     let re = Regex::new(r"mul\((?P<a>\d{1,3}),(?P<b>\d{1,3})\)|do(n't)?\(\)").unwrap();
 
     let mut enabled = 1;
-    return re
-        .captures_iter(&content)
+    re.captures_iter(&content)
         .map(|c| {
             let mut result = 0;
             match c.get(0).unwrap().as_str() {
@@ -37,7 +36,7 @@ fn part_two(test: bool) -> usize {
             };
             result
         })
-        .sum();
+        .sum()
 }
 
 #[cfg(test)]
