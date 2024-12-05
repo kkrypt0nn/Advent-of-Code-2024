@@ -5,19 +5,9 @@ struct PrintQueue {
 
 impl PrintQueue {
     fn new(test: bool) -> Self {
-        let mut print_queue = PrintQueue {
-            rules: Vec::new(),
-            updates: Vec::new(),
-        };
-        print_queue.parse_input(test);
-        print_queue
-    }
-
-    fn parse_input(&mut self, test: bool) {
         let content = aoc_rs::input::read_file_string(aoc_rs::input::get_path(5, test));
         let mut sections = content.split("\n\n");
-
-        self.rules = if let Some(rule_lines) = sections.next() {
+        let rules = if let Some(rule_lines) = sections.next() {
             rule_lines
                 .lines()
                 .map(|line| {
@@ -27,22 +17,24 @@ impl PrintQueue {
                         parts[1].parse::<usize>().unwrap(),
                     )
                 })
-                .collect()
+                .collect::<Vec<(usize, usize)>>()
         } else {
             Vec::new()
         };
-        self.updates = if let Some(update_lines) = sections.next() {
+        let updates = if let Some(update_lines) = sections.next() {
             update_lines
                 .lines()
                 .map(|line| {
                     line.split(',')
                         .map(|value| value.parse::<usize>().unwrap())
-                        .collect()
+                        .collect::<Vec<usize>>()
                 })
-                .collect()
+                .collect::<Vec<Vec<usize>>>()
         } else {
             Vec::new()
-        }
+        };
+
+        PrintQueue { rules, updates }
     }
 
     fn is_correct_order(&self, update: &[usize]) -> bool {
@@ -61,12 +53,9 @@ impl PrintQueue {
         let mut sum = 0;
         for update in &self.updates {
             if self.is_correct_order(update) {
-                if let Some(&middle) = update.get(update.len() / 2) {
-                    sum += middle;
-                }
+                sum += update.get(update.len() / 2).unwrap();
             }
         }
-
         sum
     }
 
@@ -90,12 +79,9 @@ impl PrintQueue {
         for update in &self.updates {
             if !self.is_correct_order(update) {
                 let sorted_update = self.sort_update(update.clone());
-                if let Some(&middle) = sorted_update.get(sorted_update.len() / 2) {
-                    sum += middle;
-                }
+                sum += sorted_update.get(sorted_update.len() / 2).unwrap();
             }
         }
-
         sum
     }
 }
