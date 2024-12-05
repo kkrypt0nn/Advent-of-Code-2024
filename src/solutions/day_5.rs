@@ -1,8 +1,3 @@
-use std::{
-    fs::File,
-    io::{BufReader, Read},
-};
-
 struct PrintQueue {
     rules: Vec<(usize, usize)>,
     updates: Vec<Vec<usize>>,
@@ -19,11 +14,7 @@ impl PrintQueue {
     }
 
     fn parse_input(&mut self, test: bool) {
-        let mut content = String::new();
-        let input_path = aoc_rs::input::get_path(5, test);
-        BufReader::new(File::open(input_path).unwrap())
-            .read_to_string(&mut content)
-            .unwrap();
+        let content = aoc_rs::input::read_file_string(aoc_rs::input::get_path(5, test));
         let mut sections = content.split("\n\n");
 
         self.rules = if let Some(rule_lines) = sections.next() {
