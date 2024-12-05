@@ -69,7 +69,7 @@ impl PrintQueue {
     fn part_one(&self) -> usize {
         let mut sum = 0;
         for update in &self.updates {
-            if self.is_correct_order(&update) {
+            if self.is_correct_order(update) {
                 if let Some(&middle) = update.get(update.len() / 2) {
                     sum += middle;
                 }
@@ -97,7 +97,7 @@ impl PrintQueue {
     fn part_two(&self) -> usize {
         let mut sum = 0;
         for update in &self.updates {
-            if !self.is_correct_order(&update) {
+            if !self.is_correct_order(update) {
                 let sorted_update = self.sort_update(update.clone());
                 if let Some(&middle) = sorted_update.get(sorted_update.len() / 2) {
                     sum += middle;
