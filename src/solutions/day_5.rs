@@ -50,13 +50,11 @@ impl PrintQueue {
     }
 
     fn part_one(&self) -> usize {
-        let mut sum = 0;
-        for update in &self.updates {
-            if self.is_correct_order(update) {
-                sum += update.get(update.len() / 2).unwrap();
-            }
-        }
-        sum
+        self.updates
+            .iter()
+            .filter(|update| self.is_correct_order(update))
+            .map(|update| update[update.len() / 2])
+            .sum()
     }
 
     fn sort_update(&self, mut update: Vec<usize>) -> Vec<usize> {
@@ -75,14 +73,14 @@ impl PrintQueue {
     }
 
     fn part_two(&self) -> usize {
-        let mut sum = 0;
-        for update in &self.updates {
-            if !self.is_correct_order(update) {
+        self.updates
+            .iter()
+            .filter(|update| !self.is_correct_order(update))
+            .map(|update| {
                 let sorted_update = self.sort_update(update.clone());
-                sum += sorted_update.get(sorted_update.len() / 2).unwrap();
-            }
-        }
-        sum
+                sorted_update[sorted_update.len() / 2]
+            })
+            .sum()
     }
 }
 
