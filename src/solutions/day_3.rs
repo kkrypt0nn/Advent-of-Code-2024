@@ -20,20 +20,24 @@ fn part_one(test: bool) -> usize {
 fn part_two(test: bool) -> usize {
     let content = aoc_rs::input::read_file_string(aoc_rs::input::get_path(3, test));
     let re = Regex::new(r"mul\((?P<a>\d{1,3}),(?P<b>\d{1,3})\)|do(n't)?\(\)").unwrap();
+
     let mut enabled = 1;
-    let mut sum = 0;
-    for c in re.captures_iter(&content) {
-        match c.get(0).unwrap().as_str() {
-            "don't()" => enabled = 0,
-            "do()" => enabled = 1,
-            _ => {
-                let a = c.name("a").unwrap().as_str().parse::<usize>().unwrap();
-                let b = c.name("b").unwrap().as_str().parse::<usize>().unwrap();
-                sum += a * b * enabled;
-            }
-        }
-    }
-    sum
+    return re
+        .captures_iter(&content)
+        .map(|c| {
+            let mut result = 0;
+            match c.get(0).unwrap().as_str() {
+                "don't()" => enabled = 0,
+                "do()" => enabled = 1,
+                _ => {
+                    let a = c.name("a").unwrap().as_str().parse::<usize>().unwrap();
+                    let b = c.name("b").unwrap().as_str().parse::<usize>().unwrap();
+                    result = a * b * enabled;
+                }
+            };
+            result
+        })
+        .sum();
 }
 
 #[cfg(test)]

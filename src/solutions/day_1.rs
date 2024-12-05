@@ -7,22 +7,19 @@ fn part_one(test: bool) -> isize {
     let content = aoc_rs::input::read_file(aoc_rs::input::get_path(1, test));
     let (left, right) = parse_input(content);
 
-    let mut sum = 0;
-    for (l, r) in left.iter().zip(right.iter()) {
-        sum += (l - r).abs();
-    }
-    sum
+    left.iter()
+        .zip(right.iter())
+        .map(|(l, r)| (l - r).abs())
+        .sum()
 }
 
 fn part_two(test: bool) -> isize {
     let content = aoc_rs::input::read_file(aoc_rs::input::get_path(1, test));
     let (left, right) = parse_input(content);
 
-    let mut sum = 0;
-    for l in left {
-        sum += l * right.iter().filter(|&r| r == &l).count() as isize;
-    }
-    sum
+    left.iter()
+        .map(|l| l * right.iter().filter(|&r| r == l).count() as isize)
+        .sum()
 }
 
 fn parse_input(s: Vec<String>) -> (Vec<isize>, Vec<isize>) {
