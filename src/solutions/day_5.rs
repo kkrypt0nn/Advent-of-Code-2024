@@ -7,32 +7,28 @@ impl PrintQueue {
     fn new(test: bool) -> Self {
         let content = aoc_rs::input::read_file_string(aoc_rs::input::get_path(5, test));
         let mut sections = content.split("\n\n");
-        let rules = if let Some(rule_lines) = sections.next() {
-            rule_lines
-                .lines()
-                .map(|line| {
-                    let parts: Vec<&str> = line.split('|').collect();
-                    (
-                        parts[0].parse::<usize>().unwrap(),
-                        parts[1].parse::<usize>().unwrap(),
-                    )
-                })
-                .collect::<Vec<(usize, usize)>>()
-        } else {
-            Vec::new()
-        };
-        let updates = if let Some(update_lines) = sections.next() {
-            update_lines
-                .lines()
-                .map(|line| {
-                    line.split(',')
-                        .map(|value| value.parse::<usize>().unwrap())
-                        .collect::<Vec<usize>>()
-                })
-                .collect::<Vec<Vec<usize>>>()
-        } else {
-            Vec::new()
-        };
+        let rules = sections
+            .next()
+            .unwrap()
+            .lines()
+            .map(|line| {
+                let parts: Vec<&str> = line.split('|').collect();
+                (
+                    parts[0].parse::<usize>().unwrap(),
+                    parts[1].parse::<usize>().unwrap(),
+                )
+            })
+            .collect::<Vec<(usize, usize)>>();
+        let updates = sections
+            .next()
+            .unwrap()
+            .lines()
+            .map(|line| {
+                line.split(',')
+                    .map(|value| value.parse::<usize>().unwrap())
+                    .collect::<Vec<usize>>()
+            })
+            .collect::<Vec<Vec<usize>>>();
 
         PrintQueue { rules, updates }
     }
