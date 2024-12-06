@@ -29,23 +29,6 @@ impl Lab {
         self.map[pos.1][pos.0] = 'X';
     }
 
-    fn is_obstacle_in_front(&self) -> bool {
-        let direction = self.facing.to_vector2();
-        let (x, y) = self.guard_pos;
-        let new_x = x as isize + direction.x;
-        let new_y = y as isize + direction.y;
-        self.map[new_y as usize][new_x as usize] == '#'
-    }
-
-    fn step_forward(&mut self) {
-        let direction_vec = self.facing.to_vector2();
-        let (x, y) = self.guard_pos;
-        self.guard_pos = (
-            (x as isize + direction_vec.x) as usize,
-            (y as isize + direction_vec.y) as usize,
-        );
-    }
-
     fn patrol_guard(&mut self) {
         loop {
             let direction = self.facing.to_vector2();
@@ -61,10 +44,10 @@ impl Lab {
                 break;
             }
 
-            if self.is_obstacle_in_front() {
+            if self.map[new_pos.1 as usize][new_pos.0 as usize] == '#' {
                 self.facing = self.facing.rotate_90(Orientation::Right);
             } else {
-                self.step_forward();
+                self.guard_pos = (new_pos.0 as usize, new_pos.1 as usize);
             }
         }
     }
@@ -98,10 +81,10 @@ impl Lab {
                 break;
             }
 
-            if self.is_obstacle_in_front() {
+            if self.map[new_pos.1 as usize][new_pos.0 as usize] == '#' {
                 self.facing = self.facing.rotate_90(Orientation::Right);
             } else {
-                self.step_forward();
+                self.guard_pos = (new_pos.0 as usize, new_pos.1 as usize);
             }
         }
 
