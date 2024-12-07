@@ -24,26 +24,29 @@ fn eval(numbers: &[usize], operations: &[&char]) -> usize {
 fn eval_input_for_operators(operators: &Vec<char>, test: bool) -> usize {
     let content = aoc_rs::input::read_file(aoc_rs::input::get_path(7, test));
 
-    content.iter().fold(0, |sum, line| {
-        let mut split = line.split(": ");
-        let target = split.next().unwrap().parse::<usize>().unwrap();
-        let numbers: Vec<usize> = split
-            .next()
-            .unwrap()
-            .split(" ")
-            .map(|n| n.parse::<usize>().unwrap())
-            .collect();
+    content
+        .iter()
+        .map(|line| {
+            let mut split = line.split(": ");
+            let target = split.next().unwrap().parse::<usize>().unwrap();
+            let numbers: Vec<usize> = split
+                .next()
+                .unwrap()
+                .split(" ")
+                .map(|n| n.parse::<usize>().unwrap())
+                .collect();
 
-        let mut operator_combinations = (0..numbers.len() - 1)
-            .map(|_| operators)
-            .multi_cartesian_product();
+            let mut operator_combinations = (0..numbers.len() - 1)
+                .map(|_| operators)
+                .multi_cartesian_product();
 
-        if operator_combinations.any(|operators| eval(&numbers, &operators) == target) {
-            sum + target
-        } else {
-            sum
-        }
-    })
+            if operator_combinations.any(|operators| eval(&numbers, &operators) == target) {
+                target
+            } else {
+                0
+            }
+        })
+        .sum()
 }
 
 #[cfg(test)]
