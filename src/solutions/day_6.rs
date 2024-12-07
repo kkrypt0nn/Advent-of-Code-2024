@@ -94,12 +94,11 @@ impl Lab {
 
     fn simualte_all_obstructions(&mut self) -> usize {
         let mut valid_positions = 0;
+        // TODO: Rewrite. Only need to add obstructions on the path followed be the guard in part 1.
         for y in 0..self.map.len() {
             for x in 0..self.map[0].len() {
-                if self.map[y][x] == '.' {
-                    if self.simulate_with_obstruction((x, y)) {
-                        valid_positions += 1;
-                    }
+                if self.map[y][x] == '.' && self.simulate_with_obstruction((x, y)) {
+                    valid_positions += 1;
                 }
             }
         }
