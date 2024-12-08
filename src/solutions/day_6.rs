@@ -1,10 +1,13 @@
+use std::collections::HashSet;
+
 use aoc_rs::{direction::Direction, orientation::Orientation, parsing};
 
 struct Lab {
     map: Vec<Vec<char>>,
     guard_pos: (usize, usize),
-    starting_pos: (usize, usize),
     facing: Direction,
+    starting_pos: (usize, usize),
+    visited_pos: HashSet<(usize, usize)>,
 }
 
 impl Lab {
@@ -22,14 +25,15 @@ impl Lab {
             starting_pos: guard_pos,
             guard_pos,
             facing: Direction::North,
+            visited_pos: HashSet::new(),
         }
     }
 
     fn mark_as_visited(&mut self, pos: (usize, usize)) {
-        self.map[pos.1][pos.0] = 'X';
+        self.visited_pos.insert((pos.0, pos.1));
     }
 
-    fn patrol_guard(&mut self) {
+    fn patrol_guard(&mut self) -> usize {
         loop {
             let direction = self.facing.to_vector2();
             let (x, y) = self.guard_pos;
@@ -50,9 +54,10 @@ impl Lab {
                 self.guard_pos = (new_pos.0 as usize, new_pos.1 as usize);
             }
         }
+        self.visited_pos.len()
     }
 
-    fn simulate_with_obstruction(&mut self, obstruction: (usize, usize)) -> bool {
+    fn get_loop_with_obstruction(&mut self, obstruction: (usize, usize)) -> bool {
         self.map[obstruction.1][obstruction.0] = '#';
         let mut visited_pos_facing = Vec::new();
 
@@ -92,33 +97,20 @@ impl Lab {
         false
     }
 
-    fn simualte_all_obstructions(&mut self) -> usize {
-        let mut valid_positions = 0;
-        // TODO: Rewrite. Only need to add obstructions on the path followed be the guard in part 1.
-        for y in 0..self.map.len() {
-            for x in 0..self.map[0].len() {
-                if self.map[y][x] == '.' && self.simulate_with_obstruction((x, y)) {
-                    valid_positions += 1;
-                }
-            }
-        }
-        valid_positions
+    fn simulate_with_new_obstructions(&mut self) -> usize {
+        self.visited_pos
+            .clone()
+            .iter()
+            .filter(|(x, y)| self.get_loop_with_obstruction((*x, *y)))
+            .count()
     }
 }
 
 pub fn execute(test: bool) {
     let mut lab = Lab::new(test);
-    lab.patrol_guard();
-    println!(
-        "{}",
-        lab.map
-            .iter()
-            .map(|l| l.iter().filter(|&&c| c == 'X').count())
-            .sum::<usize>()
-    );
-
-    let mut lab = Lab::new(test);
-    println!("{}", lab.simualte_all_obstructions());
+    let result = lab.patrol_guard();
+    println!("{}", result);
+    println!("{}", lab.simulate_with_new_obstructions());
 }
 
 #[cfg(test)]
@@ -128,20 +120,15 @@ mod test {
     #[test]
     fn test_part_one() {
         let mut lab = Lab::new(true);
-        lab.patrol_guard();
-        let result = lab
-            .map
-            .iter()
-            .map(|l| l.iter().filter(|&&c| c == 'X').count())
-            .sum::<usize>()
-            .to_string();
+        let result = lab.patrol_guard().to_string();
         assert_eq!(result, String::from("41"));
     }
 
     #[test]
     fn test_part_two() {
         let mut lab = Lab::new(true);
-        let result = lab.simualte_all_obstructions().to_string();
+        lab.patrol_guard();
+        let result = lab.simulate_with_new_obstructions().to_string();
         assert_eq!(result, String::from("6"));
     }
 }
