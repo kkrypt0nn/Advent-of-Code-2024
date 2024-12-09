@@ -10,6 +10,7 @@ pub fn run_day(day: usize, test: bool) {
         6 => solutions::day_6::execute(test),
         7 => solutions::day_7::execute(test),
         8 => solutions::day_8::execute(test),
+        9 => solutions::day_9::execute(test),
         // New day here
         _ => println!("Day {} is not existing", day),
     }
