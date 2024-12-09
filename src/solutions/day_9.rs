@@ -47,8 +47,8 @@ fn part_two(test: bool) -> usize {
     for file_id in (0..id).rev() {
         let mut file_block: Vec<usize> = Vec::new();
         let mut free_positions = Vec::new();
+        let mut current_free_positions = Vec::new();
 
-        let mut positions = Vec::new();
         for (i, s) in disk.iter().enumerate() {
             // Find the block for the current file id
             if s == &file_id.to_string() {
@@ -57,10 +57,10 @@ fn part_two(test: bool) -> usize {
 
             // Find the free positions (consecutive ".")
             if s == "." {
-                positions.push(i);
-            } else if !positions.is_empty() {
-                free_positions.push(positions.clone());
-                positions.clear();
+                current_free_positions.push(i);
+            } else if !current_free_positions.is_empty() {
+                free_positions.push(current_free_positions.clone());
+                current_free_positions.clear();
             }
         }
 
